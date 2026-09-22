@@ -7,7 +7,8 @@ publish about applicants who are **not US tax residents** but own a US LLC, acro
 Every cell carries the source URL it came from and the date that URL was read.
 
 ```bash
-npx banking-access-index-mcp
+# from GitHub, no npm account involved
+npx github:global-solo/banking-access-index-mcp
 ```
 
 ## Why this exists as a dataset
