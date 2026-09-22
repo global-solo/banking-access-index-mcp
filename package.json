@@ -1,0 +1,28 @@
+{
+  "name": "banking-access-index-mcp",
+  "version": "0.1.0",
+  "description": "MCP server over the Banking Access Index: which US business banking providers accept non-US-resident founders of US LLCs, with per-claim source URLs and access dates.",
+  "keywords": ["mcp", "modelcontextprotocol", "banking", "fintech", "dataset", "non-resident", "us-llc", "cross-border", "open-data"],
+  "homepage": "https://www.globalsolo.global/data/banking-access-index",
+  "repository": { "type": "git", "url": "git+https://github.com/global-solo/banking-access-index-mcp.git" },
+  "license": "MIT",
+  "author": "Global Solo",
+  "type": "module",
+  "bin": { "banking-access-index-mcp": "dist/index.js" },
+  "files": ["dist", "data", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
