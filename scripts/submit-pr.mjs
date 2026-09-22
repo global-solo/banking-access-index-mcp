@@ -14,7 +14,12 @@ const ENTRY = `- [${REPO}](https://github.com/${REPO}) 🎖️ 📇 ☁️ 🏠 
 
 const sh = (cmd, args, opts = {}) =>
   execFileSync(cmd, args, { encoding: 'utf8', stdio: ['inherit', 'pipe', 'inherit'], ...opts }).trim();
-const step = (n, s) => console.log(`\n\x1b[1m[${n}]\x1b[0m ${s}`);
+let CURRENT = 0;
+const step = (n, s) => { CURRENT = n; console.log(`\n\x1b[1m[${n}]\x1b[0m ${s}`); };
+process.on('uncaughtException', (e) => {
+  console.error(`\n\x1b[31m✗ FAILED AT STEP ${CURRENT}\x1b[0m — paste everything above this line\n  ${e.message}\n`);
+  process.exit(1);
+});
 
 // ---------------------------------------------------------------- 1. push
 step(1, 'Pushing the `prepare` commit');
@@ -35,10 +40,21 @@ if (!out.includes('banking-access-index')) throw new Error('server did not answe
 console.log('   OK — handshake answered. prepare-on-git-install works.');
 
 // ---------------------------------------------------------------- 3. fork + insert
-step(3, `Forking ${LIST} and inserting the entry alphabetically`);
+step(3, `Forking ${LIST} and appending the entry`);
 const work = mkdtempSync(join(tmpdir(), 'amcp-'));
-sh('gh', ['repo', 'fork', LIST, '--clone=true', '--remote=false', '--default-branch-only'], { cwd: work });
-const dir = join(work, LIST.split('/')[1]);
+const me = sh('gh', ['api', 'user', '--jq', '.login']);
+console.log(`   as: ${me}`);
+
+// Fork WITHOUT --clone: `--default-branch-only` does not exist on older gh, and a full
+// clone of this repo is slow. Create the fork, then shallow-clone it ourselves.
+sh('gh', ['repo', 'fork', LIST, '--clone=false']);
+const fork = `${me}/${LIST.split('/')[1]}`;
+for (let i = 0; i < 10; i++) {           // the fork is created asynchronously
+  try { sh('gh', ['api', `repos/${fork}`, '--jq', '.full_name'], { stdio: ['inherit', 'pipe', 'pipe'] }); break; }
+  catch { execFileSync('sleep', ['2']); }
+}
+const dir = join(work, 'fork');
+sh('git', ['clone', '--depth=1', `https://github.com/${fork}.git`, dir]);
 const branch = 'add-banking-access-index-mcp';
 sh('git', ['checkout', '-b', branch], { cwd: dir });
 
