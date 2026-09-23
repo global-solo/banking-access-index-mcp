@@ -34,7 +34,7 @@ node dist/index.js    # run over stdio
 
 node scripts/submit-pr.mjs        # push + verify npx install + fork + open the PR
 node scripts/open-pr.mjs          # open the PR alone, via the API (idempotent)
-node scripts/add-glama-badge.mjs  # add the Glama badge to the PR; refuses a non-200 badge URL
+node scripts/add-glama-badge.mjs  # add the Glama badge to the PR; gates on the server page + badge TEXT
 node scripts/disclose.mjs         # prepend the affiliation disclosure to our PR body
 ```
 
@@ -43,8 +43,13 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
 
 ## Directory listing status
 
-- **PR [#14903](https://github.com/punkpeye/awesome-mcp-servers/pull/14903)** — open, **blocked**
-  on the Glama listing (Dockerfile + start-and-introspect check + score badge in the entry).
+- **PR [#14903](https://github.com/punkpeye/awesome-mcp-servers/pull/14903)** — open, waiting on a
+  maintainer. The Glama prerequisite (Dockerfile + start-and-introspect check + score badge in the
+  entry) was **cleared 2026-09-23**: listed, rated **C**, badge on line 2574.
+- ⚠️ **Never gate on the Glama badge's status code.** That endpoint returns 200 for any path and
+  serves a placeholder reading "This MCP server is not listed on Glama" — a status-code check would
+  push a badge announcing the thing it was meant to prevent. Gate on the server page (200 vs 404)
+  and the badge body text, and run the nonsense-repo negative control after touching it.
 - Placement in that README was decided by **merge behaviour** (#14491 appended at the end of
   Finance & Fintech), not by CONTRIBUTING's stated alphabetical rule, which that section has
   drifted out of.
