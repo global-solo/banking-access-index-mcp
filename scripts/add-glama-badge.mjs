@@ -14,16 +14,28 @@ const BADGE = `[![${REPO} MCP server](https://glama.ai/mcp/servers/${REPO}/badge
 
 const sh = (c, a, o = {}) => execFileSync(c, a, { encoding: 'utf8', ...o }).trim();
 
-// Refuse to push a badge that does not resolve — a broken image in the entry is worse
-// than no entry, and the bot's whole point is that listed servers actually work.
-const code = sh('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}',
-  `https://glama.ai/mcp/servers/${REPO}/badges/score.svg`]);
-if (code !== '200') {
-  console.error(`\n✗ badge URL returns ${code}, not 200 — the Glama listing is not live yet.`);
+// Refuse to push a badge for a server that is not actually listed.
+//
+// ⚠️ The obvious check is wrong and was shipped wrong once. The badge endpoint returns
+// HTTP 200 for ANY path, including repos that do not exist — it serves a placeholder SVG
+// whose text reads "This MCP server is not listed on Glama". So a status-code gate would
+// happily push a badge that ANNOUNCES the thing it was written to prevent. Verified by
+// negative control 2026-09-23: nonsense-owner-qqq/nonsense-repo-qqq → 200, 2,880 bytes.
+//
+// Two checks that do discriminate:
+//   1. the server PAGE 404s when unlisted (200 for ours, 404 for the nonsense path)
+//   2. the badge body says so in words
+const page = sh('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}',
+  `https://glama.ai/mcp/servers/${REPO}`]);
+const svg = sh('curl', ['-s', `https://glama.ai/mcp/servers/${REPO}/badges/score.svg`]);
+const unlisted = /not listed on Glama/i.test(svg);
+if (page !== '200' || unlisted) {
+  console.error(`\n✗ not listed on Glama — server page ${page}, badge says unlisted: ${unlisted}`);
   console.error(`  Submit at https://glama.ai/mcp/servers and re-run once it passes checks.\n`);
   process.exit(1);
 }
-console.log(`badge URL: 200 OK`);
+const rating = (svg.match(/rated ([A-F])\b/) || [])[1] ?? '?';
+console.log(`Glama listing: page 200, badge live, rated ${rating}`);
 
 const me = sh('gh', ['api', 'user', '--jq', '.login']);
 const dir = mkdtempSync(join(tmpdir(), 'glama-'));
