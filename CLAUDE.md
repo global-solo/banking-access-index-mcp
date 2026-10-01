@@ -44,8 +44,10 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
 ## Directory listing status
 
 - **PR [#14903](https://github.com/punkpeye/awesome-mcp-servers/pull/14903)** — open, waiting on a
-  maintainer. The Glama prerequisite (Dockerfile + start-and-introspect check + score badge in the
-  entry) was **cleared 2026-09-23**: listed, rated **C**, badge on line 2574.
+  maintainer (answered on the thread 2026-10-01). Glama prerequisite: listed 2026-09-23 (Dockerfile +
+  start-and-introspect check + badge on line 2574), then **claimed 2026-10-01**. The maintainer also
+  requires an owner claim, which is why `glama.json` exists. Do not delete it: for an org-owned repo,
+  Glama lets only a GitHub user listed in `maintainers` claim the listing. Badge now reads rated **A**.
 - ⚠️ **Never gate on the Glama badge's status code.** That endpoint returns 200 for any path and
   serves a placeholder reading "This MCP server is not listed on Glama" — a status-code check would
   push a badge announcing the thing it was meant to prevent. Gate on the server page (200 vs 404)
