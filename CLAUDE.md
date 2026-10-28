@@ -11,10 +11,12 @@ through the GS repo and its `.claude/rules/vendor-claims.md` — never edited he
 
 ## Three things that must not be broken
 
-1. **Never compute a claim count.** The dataset's 239 is the number that survived an adversarial
-   re-verification pass (of 268 mined) and is *deliberately* not incremented when later
-   single-pass dimensions are added. Counting the JSON yourself publishes a second figure under a
-   different rule. Quote `methodology` instead; that string states the number in context.
+1. **Never compute a claim count.** The count is kept in the GS repo (`claim_count`, 320 as of
+   2026-10-27) under a stated rule (`claim_count_note`): only claims that survived a refute-first
+   pass count — 239 of 268 in July, plus the later dimensions' surviving claims. The public export
+   this server reads carries neither field. Counting the JSON yourself publishes a second figure
+   under a different rule. Quote `methodology` instead; its "239 of 268" describes the July pass,
+   which is what the README says too.
 2. **`restrict_kind` and `unknown_kind` are carried, never flattened into `status`.** The
    methodology is explicit that the reader outcome is identical across the three `restrict_kind`
    values while the provenance is not, and the dataset is about the provenance. Collapsing them
