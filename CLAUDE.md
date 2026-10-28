@@ -46,7 +46,8 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
 ## Directory listing status
 
 - **PR [#14903](https://github.com/punkpeye/awesome-mcp-servers/pull/14903)** — open, waiting on a
-  maintainer (answered on the thread 2026-10-01). Glama prerequisite: listed 2026-09-23 (Dockerfile +
+  maintainer. Last rebuilt 2026-10-28 as 666e68a after its second merge conflict; read `clean` the
+  same morning. Outcome read: GS row `baix-mcp-outcome-read`. Glama prerequisite: listed 2026-09-23 (Dockerfile +
   start-and-introspect check + badge on line 2574), then **claimed 2026-10-01**. The maintainer also
   requires an owner claim, which is why `glama.json` exists. Do not delete it: for an org-owned repo,
   Glama lets only a GitHub user listed in `maintainers` claim the listing. Badge now reads rated **A**.
@@ -54,9 +55,14 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
   serves a placeholder reading "This MCP server is not listed on Glama" — a status-code check would
   push a badge announcing the thing it was meant to prevent. Gate on the server page (200 vs 404)
   and the badge body text, and run the nonsense-repo negative control after touching it.
-- Placement in that README was decided by **merge behaviour** (#14491 appended at the end of
-  Finance & Fintech), not by CONTRIBUTING's stated alphabetical rule, which that section has
-  drifted out of.
+- Placement: the entry first went at the end of Finance & Fintech, following merge behaviour
+  (#14491 had appended there). That slot conflicted with every later merge (2026-10-08 and
+  10-23), so on 2026-10-28 it moved inside the alphabetical run, after
+  `glaksmono/finbud-data-mcp`. If it conflicts again, rebuild the single line on upstream main
+  in that same place. Do not move it back to the end. Reasoning: GS
+  `docs/internal/offdomain-mention-channels.md` § Outcome of the S240 submission.
+- The PR title ends in `🤖🤖🤖`, the list's opt-in for agent-authored PRs. It has been there since
+  the PR was opened, on purpose: it discloses agent authorship. Keep it.
 - **npm is deliberately unpublished.** bypass-2FA tokens lose direct publishing 2027-01, so
   `npx github:…` was made to work instead (the `prepare` script). If npm reach is ever wanted, the
   durable path is Trusted Publishing via GitHub Actions OIDC.
