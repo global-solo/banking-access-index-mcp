@@ -18,13 +18,14 @@ decision: an application can be declined on grounds no published page covers.
 With a shell, pull single cells instead of the whole file:
 
 ```bash
-URL=https://www.globalsolo.global/data/banking-access-index.json
+# save the dataset once (it is data, not code)
+curl -s -o baix.json https://www.globalsolo.global/data/banking-access-index.json
 
 # one provider, one country, with its evidence
-curl -s $URL | jq '.providers[] | select(.id=="mercury") | {display_name, cell: .countries.india}'
+jq '.providers[] | select(.id=="mercury") | {display_name, cell: .countries.india}' baix.json
 
 # every provider for one country: id, name, status, restrict_kind, unknown_kind
-curl -s $URL | jq -r '.providers[] | [.id, .display_name, .countries.pakistan.status, (.countries.pakistan.restrict_kind // "-"), (.countries.pakistan.unknown_kind // "-")] | @tsv'
+jq -r '.providers[] | [.id, .display_name, .countries.pakistan.status, (.countries.pakistan.restrict_kind // "-"), (.countries.pakistan.unknown_kind // "-")] | @tsv' baix.json
 ```
 
 Country keys: `india`, `china`, `uk`, `canada`, `pakistan`, `nigeria`, `turkey`, `brazil`.
