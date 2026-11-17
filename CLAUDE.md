@@ -63,6 +63,17 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
   `docs/internal/offdomain-mention-channels.md` § Outcome of the S240 submission.
 - The PR title ends in `🤖🤖🤖`, the list's opt-in for agent-authored PRs. It has been there since
   the PR was opened, on purpose: it discloses agent authorship. Keep it.
+- **Plugin (2026-11-17).** `.claude-plugin/plugin.json` + `marketplace.json` make this repo a
+  Claude Code plugin and its own marketplace (`global-solo`). **Codex reads the same files**:
+  verified in an isolated `CODEX_HOME`, `codex plugin marketplace add` + `codex plugin add` install
+  it and `codex mcp list` shows the server. ⚠️ **The `npx` arg is pinned to a full commit SHA**
+  because Anthropic's directory rejects unpinned launchers. After ANY change to `src/`, `data/` or
+  `package*.json`: push, then move the pin to the new SHA and bump `version` in both manifests —
+  otherwise every plugin user keeps running the old code. Prove a new pin with a clean-cache
+  `npx -y github:…#<sha>` handshake, and a nonexistent SHA as the negative control.
+  Directory submission is Jett's (claude.ai/directory/manage needs his login). OpenAI's plugin
+  directory does not take a stdio server unless OpenAI allowlists the org; a hosted HTTPS
+  endpoint is the only self-serve path there.
 - **npm is deliberately unpublished.** bypass-2FA tokens lose direct publishing 2027-01, so
   `npx github:…` was made to work instead (the `prepare` script). If npm reach is ever wanted, the
   durable path is Trusted Publishing via GitHub Actions OIDC.

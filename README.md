@@ -11,6 +11,23 @@ Every cell carries the source URL it came from and the date that URL was read.
 npx github:global-solo/banking-access-index-mcp
 ```
 
+## Install as a plugin
+
+Claude Code:
+
+```
+/plugin install banking-access-index --marketplace global-solo/banking-access-index-mcp
+```
+
+Codex:
+
+```bash
+codex plugin marketplace add global-solo/banking-access-index-mcp
+codex plugin add banking-access-index@global-solo
+```
+
+Both start the same server through `npx`, pinned to a fixed commit of this repository.
+
 ## Why this exists as a dataset
 
 A model answering "can someone in India open a Mercury account" is drawing on provider marketing

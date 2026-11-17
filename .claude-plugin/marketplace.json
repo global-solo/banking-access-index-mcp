@@ -1,0 +1,15 @@
+{
+  "name": "global-solo",
+  "description": "Global Solo's open datasets as agent plugins.",
+  "owner": {
+    "name": "Global Solo",
+    "url": "https://www.globalsolo.global"
+  },
+  "plugins": [
+    {
+      "name": "banking-access-index",
+      "source": "./plugins/banking-access-index",
+      "description": "What 19 US business banking providers publish about applicants who are not US tax residents but own a US LLC, across 8 countries, with a source URL and access date on every cell."
+    }
+  ]
+}
