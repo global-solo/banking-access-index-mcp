@@ -15,12 +15,10 @@ decision: an application can be declined on grounds no published page covers.
 | `https://www.globalsolo.global/data/banking-access-index.csv` | ~8 KB | The matrix: one row per provider, one `<country>_status` column per country, plus `non_resident_stance`, `ssn_itin_requirement`, `phone_us_required`, `remote_onboarding`, `restricted_list_url`, `verified_at`. Enough for "which providers restrict Pakistan" or "does Relay need an SSN". |
 | `https://www.globalsolo.global/data/banking-access-index.json` | ~620 KB | The evidence behind one cell: `note`, `evidence[].url`, `evidence[].date`, and the two discriminators `restrict_kind` and `unknown_kind`. Read only the cells the question needs. |
 
-With a shell, pull single cells instead of the whole file:
+With a shell, save the JSON once as `baix.json` (it is data, not code), then read single cells
+instead of the whole file:
 
 ```bash
-# save the dataset once (it is data, not code)
-curl -s -o baix.json https://www.globalsolo.global/data/banking-access-index.json
-
 # one provider, one country, with its evidence
 jq '.providers[] | select(.id=="mercury") | {display_name, cell: .countries.india}' baix.json
 
