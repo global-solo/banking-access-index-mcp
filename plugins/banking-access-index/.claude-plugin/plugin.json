@@ -8,6 +8,10 @@
   },
   "homepage": "https://www.globalsolo.global/data/banking-access-index",
   "repository": "https://github.com/global-solo/banking-access-index-mcp",
+  "documentationUrl": "https://www.globalsolo.global/about/methodology",
+  "supportUrl": "https://github.com/global-solo/banking-access-index-mcp/issues",
+  "privacyPolicyUrl": "https://www.globalsolo.global/privacy",
+  "termsOfServiceUrl": "https://www.globalsolo.global/terms",
   "license": "MIT",
   "keywords": [
     "banking",
