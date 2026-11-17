@@ -63,17 +63,18 @@ cannot reach the macOS keychain from inside the sandbox and reports a working to
   `docs/internal/offdomain-mention-channels.md` § Outcome of the S240 submission.
 - The PR title ends in `🤖🤖🤖`, the list's opt-in for agent-authored PRs. It has been there since
   the PR was opened, on purpose: it discloses agent authorship. Keep it.
-- **Plugin (2026-11-17).** `.claude-plugin/plugin.json` + `marketplace.json` make this repo a
-  Claude Code plugin and its own marketplace (`global-solo`). **Codex reads the same files**:
-  verified in an isolated `CODEX_HOME`, `codex plugin marketplace add` + `codex plugin add` install
-  it and `codex mcp list` shows the server. ⚠️ **The `npx` arg is pinned to a full commit SHA**
-  because Anthropic's directory rejects unpinned launchers. After ANY change to `src/`, `data/` or
-  `package*.json`: push, then move the pin to the new SHA and bump `version` in both manifests —
-  otherwise every plugin user keeps running the old code. Prove a new pin with a clean-cache
-  `npx -y github:…#<sha>` handshake, and a nonexistent SHA as the negative control.
-  Directory submission is Jett's (claude.ai/directory/manage needs his login). OpenAI's plugin
-  directory does not take a stdio server unless OpenAI allowlists the org; a hosted HTTPS
-  endpoint is the only self-serve path there.
+- **Plugin (2026-11-17) = a skill, NOT this server.** `plugins/banking-access-index/` holds one
+  skill (`skills/banking-access-index/SKILL.md`) that reads the public CSV/JSON from
+  globalsolo.global; `.claude-plugin/marketplace.json` at the root makes the repo its own
+  marketplace (`global-solo`). **Why no MCP server inside it:** Anthropic's portal blocks any
+  local (stdio) MCP server unless the submitting org is Verified, and Verified cannot be applied
+  for (Anthropic decides it in review). v0.1.0 bundled the server via a pinned `npx` and failed
+  exactly that check on 2026-11-17. A remote MCP at a public URL may stay in a plugin — that is
+  the path if a hosted endpoint is ever built. Codex reads the same marketplace files (verified
+  with v0.1.0 in an isolated `CODEX_HOME`). The skill names CSV columns and JSON keys
+  (`countries.<country>.status/restrict_kind/unknown_kind/evidence`): **rename one in the GS
+  export and the skill silently breaks** — grep SKILL.md after any schema change. OpenAI's plugin
+  directory takes a stdio server only from an OpenAI-allowlisted org.
 - **npm is deliberately unpublished.** bypass-2FA tokens lose direct publishing 2027-01, so
   `npx github:…` was made to work instead (the `prepare` script). If npm reach is ever wanted, the
   durable path is Trusted Publishing via GitHub Actions OIDC.

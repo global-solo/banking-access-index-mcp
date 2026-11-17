@@ -13,6 +13,9 @@ npx github:global-solo/banking-access-index-mcp
 
 ## Install as a plugin
 
+The plugin in `plugins/banking-access-index` is a skill, not this server: it teaches the agent to
+read the public dataset and report its status vocabulary. Use the `npx` line above for tool calls.
+
 Claude Code:
 
 ```
@@ -25,8 +28,6 @@ Codex:
 codex plugin marketplace add global-solo/banking-access-index-mcp
 codex plugin add banking-access-index@global-solo
 ```
-
-Both start the same server through `npx`, pinned to a fixed commit of this repository.
 
 ## Why this exists as a dataset
 

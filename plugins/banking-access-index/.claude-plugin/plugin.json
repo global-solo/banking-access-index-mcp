@@ -1,6 +1,6 @@
 {
   "name": "banking-access-index",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "What 19 US business banking providers publish about applicants who are not US tax residents but own a US LLC, across 8 countries. Every cell carries its source URL and the date that URL was read. Absence from a prohibited list is never reported as acceptance.",
   "author": {
     "name": "Global Solo",
@@ -17,14 +17,5 @@
     "us-llc",
     "cross-border",
     "open-data"
-  ],
-  "mcpServers": {
-    "banking-access-index": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "github:global-solo/banking-access-index-mcp#a4d635fb769726bb45a6ac2d8bc3ecbb743a627c"
-      ]
-    }
-  }
+  ]
 }
